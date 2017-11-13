@@ -28,59 +28,54 @@ import us.shalabh.alp.service.IDemoS3EventService;
  * A simple test harness for locally invoking your Lambda function handler.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DemoS3EventLambdaTest {
+public class DemoS3EventLambdaTest
+{
 
-    private final String CONTENT_TYPE = "image/jpeg";
-    private S3Event event;
+	private final String CONTENT_TYPE = "image/jpeg";
+	private S3Event event;
 
-    @Mock
-    private AmazonS3 s3Client;
-    @Mock
-    private S3Object s3Object;
-    
-    @Mock
-    private IDemoS3EventService mockDemoS3EventService;
-    
-    @InjectMocks
-    private DemoS3EventLambda lambda;
+	@Mock
+	private AmazonS3 s3Client;
+	@Mock
+	private S3Object s3Object;
 
-    @Captor
-    private ArgumentCaptor<GetObjectRequest> getObjectRequest;
+	@Mock
+	private IDemoS3EventService mockDemoS3EventService;
 
-    @Before
-    public void setUp() throws IOException {
-        event = TestUtils.parse("/s3-event.put.json", S3Event.class);
+	@InjectMocks
+	private DemoS3EventLambda lambda;
 
-        // TODO: customize your mock logic for s3 client
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(CONTENT_TYPE);
-        when(s3Object.getObjectMetadata()).thenReturn(objectMetadata);
-        when(s3Client.getObject(getObjectRequest.capture())).thenReturn(s3Object);
-    }
+	@Captor
+	private ArgumentCaptor<GetObjectRequest> getObjectRequest;
 
-    private Context createContext() {
-        TestContext ctx = new TestContext();
+	@Before
+	public void setUp() throws IOException
+	{
+		event = TestUtils.parse("/s3-event.put.json", S3Event.class);
 
-        // TODO: customize your context here if needed.
-        ctx.setFunctionName("Your Function Name");
+		ObjectMetadata objectMetadata = new ObjectMetadata();
+		objectMetadata.setContentType(CONTENT_TYPE);
+		when(s3Object.getObjectMetadata()).thenReturn(objectMetadata);
+		when(s3Client.getObject(getObjectRequest.capture())).thenReturn(s3Object);
+	}
 
-        return ctx;
-    }
+	private Context createContext()
+	{
+		TestContext ctx = new TestContext();
+		ctx.setFunctionName("Your Function Name");
 
-    @Test
-    public void testDemoS3EventLambda() {
-       
-        Context ctx = createContext();
+		return ctx;
+	}
 
-        /*String output = handler.handleRequest(event, ctx);
+	@Test
+	public void testDemoS3EventLambda()
+	{
+		Context ctx = createContext();
 
-        // TODO: validate output here if needed.
-        Assert.assertEquals(CONTENT_TYPE, output);*/
-    	
-        Mockito.when(mockDemoS3EventService.getData()).thenReturn("Mock Data");
-        
-    	String data = lambda.process(event, ctx);
-    	
-    	Assert.assertEquals("Mock Data", data);
-    }
+		Mockito.when(mockDemoS3EventService.getData()).thenReturn("Mock Data");
+
+		String data = lambda.process(event, ctx);
+
+		Assert.assertEquals("Mock Data", data);
+	}
 }
