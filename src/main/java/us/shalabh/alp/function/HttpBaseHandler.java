@@ -65,7 +65,7 @@ public abstract class HttpBaseHandler implements RequestHandler<HttpRequest, Htt
 	 * lang.Object, com.amazonaws.services.lambda.runtime.Context)
 	 */
 	@Override
-	public HttpResponse handleRequest(HttpRequest request, Context context)
+	public final HttpResponse handleRequest(HttpRequest request, Context context)
 	{
 		HttpResponse response = new HttpResponse();
 
