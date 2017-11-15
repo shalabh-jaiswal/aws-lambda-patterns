@@ -45,7 +45,7 @@ public abstract class BaseHandler<I, O> implements RequestHandler<I, O>
 	/**
 	 * Initialization code. primarily used to initialize dependencies
 	 */
-	public void init()
+	protected void init()
 	{
 		// do nothing
 	}
@@ -58,12 +58,12 @@ public abstract class BaseHandler<I, O> implements RequestHandler<I, O>
 	 * @param context
 	 * @return
 	 */
-	public abstract O process(I input, Context context);
+	protected abstract O process(I input, Context context);
 
 	/**
 	 * release resources if any. 
 	 */
-	public void destroy()
+	protected void destroy()
 	{
 		// do nothing
 	}
