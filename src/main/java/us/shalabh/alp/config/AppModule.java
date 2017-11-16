@@ -17,9 +17,13 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
 import dagger.Module;
 import dagger.Provides;
+import us.shalabh.alp.dao.DemoHttpRequestDao;
 import us.shalabh.alp.dao.DemoS3EventDao;
+import us.shalabh.alp.dao.IDemoHttpRequestDao;
 import us.shalabh.alp.dao.IDemoS3EventDao;
+import us.shalabh.alp.service.DemoHttpRequestService;
 import us.shalabh.alp.service.DemoS3EventService;
+import us.shalabh.alp.service.IDemoHttpRequestService;
 import us.shalabh.alp.service.IDemoS3EventService;
 
 /**
@@ -63,5 +67,29 @@ public class AppModule
 	public IDemoS3EventDao provideDemoS3EventDao(DemoS3EventDao demoS3EventDao)
 	{
 		return demoS3EventDao;
+	}
+	
+	/**
+	 * Provides an implementation of an <code>IDemoHttpRequestDao</code> 
+	 * 
+	 * @param demoHttpRequestDao
+	 * @return
+	 */
+	@Provides
+	public IDemoHttpRequestDao provideDemoHttpRequestDao(DemoHttpRequestDao demoHttpRequestDao)
+	{
+		return demoHttpRequestDao;
+	}
+	
+	/**
+	 * Provides an implementation of an <code>IDemoHttpRequestService</code>
+	 * 
+	 * @param demoHttpRequestService
+	 * @return
+	 */
+	@Provides
+	public IDemoHttpRequestService provideDemoHttpRequestService(DemoHttpRequestService demoHttpRequestService)
+	{
+		return demoHttpRequestService;
 	}
 }

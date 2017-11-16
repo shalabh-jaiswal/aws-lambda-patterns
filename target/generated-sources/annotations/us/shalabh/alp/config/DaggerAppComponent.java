@@ -5,9 +5,14 @@ import dagger.internal.DoubleCheck;
 import dagger.internal.Preconditions;
 import javax.annotation.Generated;
 import javax.inject.Provider;
+import us.shalabh.alp.dao.DemoHttpRequestDao;
+import us.shalabh.alp.dao.DemoHttpRequestDao_Factory;
 import us.shalabh.alp.dao.DemoS3EventDao;
 import us.shalabh.alp.dao.DemoS3EventDao_Factory;
+import us.shalabh.alp.dao.IDemoHttpRequestDao;
 import us.shalabh.alp.dao.IDemoS3EventDao;
+import us.shalabh.alp.service.DemoHttpRequestService;
+import us.shalabh.alp.service.DemoHttpRequestService_Factory;
 import us.shalabh.alp.service.DemoS3EventService;
 import us.shalabh.alp.service.DemoS3EventService_Factory;
 
@@ -23,6 +28,12 @@ public final class DaggerAppComponent implements AppComponent {
   private Provider<IDemoS3EventDao> provideDemoS3EventDaoProvider;
 
   private Provider<DemoS3EventService> demoS3EventServiceProvider;
+
+  private Provider<DemoHttpRequestDao> demoHttpRequestDaoProvider;
+
+  private Provider<IDemoHttpRequestDao> provideDemoHttpRequestDaoProvider;
+
+  private Provider<DemoHttpRequestService> demoHttpRequestServiceProvider;
 
   private DaggerAppComponent(Builder builder) {
     initialize(builder);
@@ -44,6 +55,13 @@ public final class DaggerAppComponent implements AppComponent {
         AppModule_ProvideDemoS3EventDaoFactory.create(builder.appModule, demoS3EventDaoProvider);
     this.demoS3EventServiceProvider =
         DoubleCheck.provider(DemoS3EventService_Factory.create(provideDemoS3EventDaoProvider));
+    this.demoHttpRequestDaoProvider = DoubleCheck.provider(DemoHttpRequestDao_Factory.create());
+    this.provideDemoHttpRequestDaoProvider =
+        AppModule_ProvideDemoHttpRequestDaoFactory.create(
+            builder.appModule, demoHttpRequestDaoProvider);
+    this.demoHttpRequestServiceProvider =
+        DoubleCheck.provider(
+            DemoHttpRequestService_Factory.create(provideDemoHttpRequestDaoProvider));
   }
 
   @Override
@@ -55,6 +73,11 @@ public final class DaggerAppComponent implements AppComponent {
   @Override
   public DemoS3EventService getDemoS3EventService() {
     return demoS3EventServiceProvider.get();
+  }
+
+  @Override
+  public DemoHttpRequestService getDemoHttpRequestService() {
+    return demoHttpRequestServiceProvider.get();
   }
 
   public static final class Builder {

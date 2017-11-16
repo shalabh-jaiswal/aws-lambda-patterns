@@ -15,6 +15,8 @@ package us.shalabh.alp.function;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import us.shalabh.alp.config.AppComponent;
+import us.shalabh.alp.config.DaggerAppComponent;
 import us.shalabh.alp.exception.AccessDeniedException;
 import us.shalabh.alp.model.HttpRequest;
 import us.shalabh.alp.model.HttpResponse;
@@ -30,7 +32,9 @@ import us.shalabh.alp.utils.http.HttpUtils;
  */
 public abstract class HttpBaseHandler implements RequestHandler<HttpRequest, HttpResponse>
 {
-
+	// dagger app component
+	static final AppComponent appComponent = DaggerAppComponent.builder().build();
+	
 	/**
 	 * initialization code. used for setting up dependencies.
 	 */

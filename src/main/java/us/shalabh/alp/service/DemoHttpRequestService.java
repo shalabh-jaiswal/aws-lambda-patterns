@@ -10,44 +10,39 @@
  * is strictly forbidden unless prior written permission is obtained
  * from shalabh.us
  */
-package us.shalabh.alp.config;
+package us.shalabh.alp.service;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.amazonaws.services.s3.AmazonS3;
-
-import dagger.Component;
-import us.shalabh.alp.service.DemoHttpRequestService;
-import us.shalabh.alp.service.DemoS3EventService;
+import us.shalabh.alp.dao.IDemoHttpRequestDao;
 
 /**
- * Dagger 2 App Component
+ * Service Class Implementation
  *
  * @author Shalabh Jaiswal
  */
 @Singleton
-@Component(modules = {AppModule.class})
-public interface AppComponent
+public class DemoHttpRequestService implements IDemoHttpRequestService
 {
+	private IDemoHttpRequestDao demoHttpRequestDao;
+	
+	/**
+	 * contructor injection
+	 */
+	@Inject
+	public DemoHttpRequestService(IDemoHttpRequestDao demoHttpRequestDao)
+	{
+		this.demoHttpRequestDao = demoHttpRequestDao;
+	}
+	
+	/* (non-Javadoc)
+	 * @see us.shalabh.alp.service.IDemoHttpRequestService#getData()
+	 */
+	@Override
+	public String getData()
+	{
+		return demoHttpRequestDao.getData();
+	}
 
-	/**
-	 * get an S3 Object
-	 * 
-	 * @return
-	 */
-	AmazonS3 getAmazonS3();
-	
-	/**
-	 * gets DemoS3EventService object
-	 * 
-	 * @return
-	 */
-	DemoS3EventService getDemoS3EventService();
-	
-	/**
-	 * gets DemoHttpRequestService object
-	 * 
-	 * @return
-	 */
-	DemoHttpRequestService getDemoHttpRequestService();
 }
