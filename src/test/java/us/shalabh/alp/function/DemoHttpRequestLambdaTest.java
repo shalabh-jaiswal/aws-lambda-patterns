@@ -56,4 +56,15 @@ public class DemoHttpRequestLambdaTest
 		
 		Assert.assertEquals("{\"data\":\"Mock Data\"}", response.getBody());
 	}
+	
+	/**
+	 * get Data Is Invoked exactly once 
+	 */
+	@Test
+	public void getDataIsInvoked()
+	{	
+		demoHttpRequestLambda.process(new HttpRequest(), new HttpResponse(), new TestContext());
+		
+		Mockito.verify(mockDemoHttpRequestService, Mockito.times(1)).getData();
+	}
 }
